@@ -11,6 +11,7 @@
 		PanelRightOpen
 	} from '@lucide/svelte';
 	import * as Avatar from './ui/avatar';
+	import * as DropdownMenu from './ui/dropdown-menu';
 	type menuitemas = {
 		name: string;
 		icon: typeof IconType;
@@ -107,14 +108,33 @@
 	</div>
 	<div>
 		<div class="flex items-center gap-2">
-			<Avatar.Root>
-				<Avatar.Image
+			<DropdownMenu.Root>
+
+			<DropdownMenu.Trigger class="cursor-pointer">
+
+				<Avatar.Root>
+					<Avatar.Image
 					src="https://static.wikitide.net/deathbattlewiki/9/95/Portrait.kazumasato.png"
 					class="object-cover"
 					alt="avatar"
-				/>
-				<Avatar.Fallback>KS</Avatar.Fallback>
-			</Avatar.Root>
+					/>
+					<Avatar.Fallback>KS</Avatar.Fallback>
+				</Avatar.Root>
+			</DropdownMenu.Trigger>
+			<DropdownMenu.Content class="bg-sidebar-accent  border-1 border-sidebar-border rounded-md p-2">
+				<DropdownMenu.Item class="cursor-pointer rounded-sm px-2 py-1 text-sm hover:bg-primary/50">
+					Profile
+				</DropdownMenu.Item>
+				<DropdownMenu.Item class="cursor-pointer rounded-sm px-2 py-1 text-sm hover:bg-primary/50">
+					Settings
+				</DropdownMenu.Item>
+				<DropdownMenu.Item class="cursor-pointer text-destructive rounded-sm px-2 py-1 text-sm hover:bg-primary/50">
+					Logout
+				</DropdownMenu.Item>
+			</DropdownMenu.Content>
+
+			
+</DropdownMenu.Root>
 			<div class="hider">
 				<h2 class="font-semibold text-sidebar-foreground">Kazuma Satou</h2>
 				<p class="text-sm text-muted-foreground">Konosuba Main Character</p>
