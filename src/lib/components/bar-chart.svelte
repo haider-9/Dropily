@@ -3,46 +3,55 @@
 	import type { ChartConfiguration } from 'chart.js';
 	import { useChart } from '$lib/charts/useChart';
 
-	export let data: number[] = [];
-	export let labels: string[] = [];
+	// Accept data data as a prop
+	let { data = [] }: { data: number[] } = $props();
 
-	let config: ChartConfiguration<'bar'> | null = null;
+	let chartCanvas: HTMLCanvasElement;
+	let chartInstance: any;
 
-	onMount(() => {
-		const primary = getComputedStyle(document.documentElement)
-			.getPropertyValue('--chart-1')
-			.trim();
-
-		config = {
-			type: 'bar',
-			data: {
-				labels,
-				datasets: [
-					{
-						data,
-						backgroundColor: primary,
-						borderRadius: 6,
-						barThickness: 18
-					}
-				]
-			},
-			options: {
-				responsive: true,
-				maintainAspectRatio: false,
-				plugins: {
-					legend: { display: false }
+	$effect(() => {
+		if (chartCanvas && data.length > 0) {
+			const labels = Array.from({ length: data.length }, (_, i) => `${i + 1}`);
+			
+			const config: ChartConfiguration<'bar'> = {
+				type: 'bar',
+				data: {
+					labels,
+					datasets: [
+						{
+							data: data,
+							backgroundColor: getComputedStyle(document.documentElement)
+								.getPropertyValue('--chart-1')
+								.trim(),
+							borderRadius: 6,
+							barThickness: 18
+						}
+					]
 				},
-				scales: {
-					x: { grid: { display: false }, ticks: { display: false } },
-					y: { grid: { display: false }, ticks: { display: false } }
+				options: {
+					responsive: true,
+					maintainAspectRatio: true,
+					plugins: {
+						legend: { display: false }
+					},
+					scales: {
+						x: { grid: { display: false }, ticks: { display: true } },
+						y: { grid: { display: false }, ticks: { display: false } }
+					}
 				}
+			};
+
+			if (chartInstance) {
+				chartInstance.data.labels = labels;
+				chartInstance.data.datasets[0].data = data;
+				chartInstance.update();
+			} else {
+				chartInstance = useChart(chartCanvas, config);
 			}
-		};
+		}
 	});
 </script>
 
 <div class="h-24 w-full">
-	{#if config}
-		<canvas use:useChart={config}></canvas>
-	{/if}
+	<canvas bind:this={chartCanvas}></canvas>
 </div>

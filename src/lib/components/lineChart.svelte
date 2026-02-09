@@ -8,9 +8,6 @@
 	let config: ChartConfiguration<'line'> | null = null;
 
 	onMount(() => {
-		const color = getComputedStyle(document.documentElement)
-			.getPropertyValue('--chart-2')
-			.trim();
 
 		config = {
 			type: 'line',
@@ -19,8 +16,12 @@
 				datasets: [
 					{
 						data,
-						borderColor: color,
-						backgroundColor: color,
+						borderColor:  getComputedStyle(document.documentElement)
+								.getPropertyValue('--chart-1')
+								.trim(),
+						backgroundColor: getComputedStyle(document.documentElement)
+								.getPropertyValue('--chart-2')
+								.trim(),
 						tension: 0.4,
 						pointRadius: 0
 					}
@@ -36,7 +37,7 @@
 	});
 </script>
 
-<div class="h-16 w-full">
+<div class="h-24 w-full">
 	{#if config}
 		<canvas use:useChart={config}></canvas>
 	{/if}
