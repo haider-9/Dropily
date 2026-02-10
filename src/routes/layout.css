@@ -11,7 +11,7 @@
 	--card-foreground: oklch(0 0 0);
 	--popover: oklch(0.9911 0 0);
 	--popover-foreground: oklch(0 0 0);
-	--primary: oklch(0.5393 0.2713 286.7462);
+	--primary: #7033ff;
 	--primary-foreground: oklch(1 0 0);
 	--secondary: oklch(0.954 0.0063 255.4755);
 	--secondary-foreground: oklch(0.1344 0 0);
@@ -172,9 +172,6 @@
 	--tracking-widest: calc(var(--tracking-normal) + 0.1em);
 }
 
-body {
-	letter-spacing: var(--tracking-normal);
-}
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
@@ -264,7 +261,7 @@ input:checked + .slider:before {
 html {
 	font-family: 'GROBOLD', sans-serif;
 	font-weight: 100;
-	font-size: small;
+	letter-spacing: var(--tracking-wider);
 	
 }
 h1 {

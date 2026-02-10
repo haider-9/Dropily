@@ -28,9 +28,12 @@
 <div class="mx-auto flex w-[100rem] items-center justify-between gap-4 p-6">
 	<div>
 		<h1
-			class="bg-gradient-to-r from-cyan-400 via-sky-500 to-blue-600 bg-clip-text text-xl font-bold text-transparent"
+			class=" text-xl font-bold "
 		>
-			Welcome Back, Haider!
+			Welcome Back
+			{#each "HAIDER!".split("") as letter}
+				<span class=" text-pink-600 even:text-amber-400 odd:-translate-y-1 inline-block">{letter}</span>
+			{/each}
 		</h1>
 		<p class="text-sm text-muted-foreground">welcome back, we missed you</p>
 	</div>

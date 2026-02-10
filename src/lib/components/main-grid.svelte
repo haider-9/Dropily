@@ -2,6 +2,7 @@
 	import BarChart from './bar-chart.svelte';
 	import DotChart from './dot-chart.svelte';
 	import LineChart from './lineChart.svelte';
+	import Loader from './loader.svelte';
 	import * as Card from './ui/card';
 	import { Gift, Box, ChevronsRight, type Icon as Icontype } from '@lucide/svelte';
 	type cardProps = {
@@ -34,40 +35,51 @@
 			unit: 'mi'
 		}
 	];
+	let loading = true;
+	setTimeout(() => {
+		loading = false;
+	}, 2000);
 </script>
 
 <div class="">
-	<div class="flex items-center justify-between gap-6 p-6">
-		{#each cardData as card}
-			<Card.Root class="w-1/3  p-6 shadow-none border-none bg-muted">
-				<div class="flex items-center justify-between gap-4">
-					<div>
-						<p class="text-md font-medium text-foreground">{card.title}</p>
-						<p class="flex items-center gap-4 text-lg text-muted-foreground">
-							<card.icon
-								class="size-9 rounded-full bg-muted-foreground p-1 text-center text-background"
-							/>{card.value}
-							{card.unit}
-						</p>
+	{#if loading}
+		<div class="flex h-96 items-center justify-center">
+			<Loader />
+		</div>
+	{:else}
+		<div class="flex items-center justify-between gap-6 p-6">
+			{#each cardData as card}
+				<Card.Root class="w-1/3  border-none bg-muted p-6 shadow-none">
+					<div class="flex items-center justify-between gap-4">
+						<div>
+							<p class="text-md font-medium text-foreground">{card.title}</p>
+							<p class="flex items-center gap-4 text-lg text-muted-foreground">
+								<card.icon
+									class="size-9 rounded-full bg-muted-foreground p-1 text-center text-background"
+								/>{card.value}
+								{card.unit}
+							</p>
+						</div>
+						<div class="mt-3 w-2/4">
+							{#if card.icon === Gift}
+								<LineChart data={card.charts} />
+							{:else if card.icon === Box}
+								<DotChart count={card.charts.length} />
+							{:else}
+								<BarChart data={card.charts} />
+							{/if}
+						</div>
 					</div>
-					<div class="mt-3 w-2/4">
-						{#if card.icon === Gift}
-							<LineChart data={card.charts} />
-						{:else if card.icon === Box}
-							<DotChart count={card.charts.length} />
-						{:else}
-							<BarChart data={card.charts} />
-						{/if}
-					</div>
-				</div>
-			</Card.Root>
-		{/each}
-	</div>
-	<div class="grid grid-rows-3 gap-4 h-96 *:rounded-xl *:bg-muted">
+				</Card.Root>
+			{/each}
+		</div>
+	
+	<div class="grid h-96 grid-rows-3 grid-cols-5 gap-4 *:rounded-xl *:bg-muted">
 		<div class=""></div>
 		<div class="col-span-2 row-span-2"></div>
-		<div class="row-span-3 col-span-2"></div>
+		<div class="col-span-2 row-span-3"></div>
 		<div class="row-span-2"></div>
 		<div class="col-span-2"></div>
 	</div>
+	{/if}
 </div>
